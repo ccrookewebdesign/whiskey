@@ -1,0 +1,25 @@
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100px;
+  border-radius: 5px;
+  background: rgb(251, 251, 252);
+  padding: 10px;
+  &.hovering {
+    background: #FAAD63;
+  }
+}
+
+progress::-webkit-progress-value {
+  transition: width 0.1s ease;
+}
+
+img {
+  width: 250px;
+}
+
+.file-input {
+  display: none;
+}

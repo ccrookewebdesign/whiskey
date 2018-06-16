@@ -1,0 +1,42 @@
+<div class="mt-4">
+  <label class="text-xxs font-semibold">Photo</label>
+
+  <div dropZone *ngIf="!uploadComplete" class="mt-2 dropzone" (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
+    [class.hovering]="isHovering">
+
+    <div class="file text-center text-sm">
+
+      <p>Drag and Drop a File</p>
+      <p class="my-2">or</p>
+      <label class="file-label">
+
+        <input class="file-input" type="file" (change)="startUpload($event.target.files)">
+
+        <span class="file-cta">
+          <span class="file-icon mr-2">
+            <i class="fa fa-upload"></i>
+          </span>
+          <span class="file-label">choose a file…</span>
+        </span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="percentage | async as pct">
+    <progress class="progress is-info" [value]="pct" max="100" style="width: 100%;"></progress>
+    <!-- <div style="display: flex"><span>{{ pct | number }}%</span></div> -->
+  </div>
+
+  <div *ngIf="(snapshot | async) as snap">
+    {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
+    <!-- <hr>
+    <div *ngIf="isActive(snap)">
+      <button (click)="task.pause()" class="button is-warning">Pause</button>
+      <button (click)="task.cancel()" class="button is-danger">Cancel</button>
+      <button (click)="task.resume()" class="button is-info" [disabled]="!(snap?.state === 'paused')">Resume</button>
+    </div> -->
+  </div>
+</div>

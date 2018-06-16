@@ -1,0 +1,46 @@
+<div class="my-3 mx-3">
+  <div [ngClass]="animateOnRouteEnter" class="flex justify-between text-xs mb-3">
+    <a class="no-underline text-orange hover:text-orange-dark" [routerLink]="[ '/whiskeys'] ">Back to whiskeys</a>
+    <a *ngIf="uid" class="no-underline text-orange hover:text-orange-dark" [routerLink]="[ '/whiskeys/edit', whiskey.id] ">edit</a>
+  </div>
+
+  <h2 [ngClass]="animateOnRouteEnter" class="my-2 font-semibold text-base">{{ whiskey.long_name }}</h2>
+
+  <div [ngClass]="animateOnRouteEnter" *ngIf="photo_path" class="my-4 mx-auto text-center">
+    <img style="max-width: 80%; max-height: 325px;" [src]="photo_path">
+  </div>
+
+  <div [ngClass]="animateOnRouteEnter">
+    <p class="text-sm mb-3 leading-normal text-xs">
+      {{ whiskey.notes }}
+    </p>
+
+    <div class="leading-loose bg-grey-lightest mt-2 mb-3 py-3 text-xs">
+      <div class="flex justify-stretch">
+        <div class="w-1/4 text-right font-semibold border-r border-grey pr-2">Maker</div>
+        <div class="w-3/4 pl-2">{{ whiskey.maker }}</div>
+      </div>
+      <div class="flex" style="justify-content: stretch">
+        <div class="w-1/4 text-right font-semibold border-r border-grey pr-2">Location</div>
+        <div class="w-3/4 pl-2">{{ whiskey.location }}</div>
+      </div>
+      <div class="flex mb-auto" style="justify-content: stretch">
+        <div class="w-1/4 text-right font-semibold border-r border-grey pr-2">Type</div>
+        <div class="w-3/4 pl-2">{{ whiskey.type }}</div>
+      </div>
+      <div class="flex mb-auto" style="justify-content: stretch">
+        <div class="w-1/4 text-right font-semibold border-r border-grey pr-2">Aged</div>
+        <div class="w-3/4 pl-2">{{ whiskey.years }} years</div>
+      </div>
+      <div class="flex mb-auto" style="justify-content: stretch">
+        <div class="w-1/4 text-right font-semibold border-r border-grey pr-2">Proof/ABV</div>
+        <div class="w-3/4 pl-2">{{ whiskey.proof }} / {{ whiskey.alc_vol }}</div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="mb-8">
+      <h4>Reviews</h4>
+    </div>
+  </div>
+</div>

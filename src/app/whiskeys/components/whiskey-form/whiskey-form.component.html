@@ -1,0 +1,108 @@
+<div class="my-3 mx-3">
+  <div [ngClass]="animateOnRouteEnter" class="flex justify-between text-xs mb-3">
+    <a class="no-underline text-orange hover:text-orange-dark" [routerLink]="[ '/whiskeys'] ">Back to whiskeys</a>
+  </div>
+
+  <h2 [ngClass]="animateOnRouteEnter" class="my-2 font-semibold text-base">{{ whiskey ? whiskey.long_name : 'New Whiskey' }}</h2>
+
+  <div [ngClass]="animateOnRouteEnter" *ngIf="photo_path" class="my-4 mx-auto text-center">
+    <img [src]="photo_path">
+  </div>
+
+  <div [ngClass]="animateOnRouteEnter" class="p-3 bg-grey-lighter text-sm text-grey-darker">
+    <form [formGroup]="form">
+      <div class="mb-2" [class.error]="form.get('long_name').touched && form.get('long_name').hasError('required')">
+        <label class="font-semibold">Whiskey Long Name</label>
+        <input type="text" id="long_name" class="text-grey-darkest border border-grey-light my-1" formControlName="long_name">
+        <span class="error">Whiskey Long Name is required</span>
+      </div>
+      <div class="mb-2" [class.error]="form.get('short_name').touched && form.get('short_name').hasError('required')">
+        <label class="font-semibold">Whiskey Short Name</label>
+        <input type="text" id="short_name" class="text-grey-darkest border border-grey-light my-1" formControlName="short_name">
+        <span class="error">Whiskey Short Name is required</span>
+      </div>
+      <div class="mb-2" [class.error]="form.get('maker').touched && form.get('maker').hasError('required')">
+        <label class="font-semibold">Maker</label>
+        <input type="text" id="maker" class="text-grey-darkest border border-grey-light my-1" formControlName="maker">
+        <span class="error">Maker is required</span>
+      </div>
+      <div class="mb-2" [class.error]="form.get('location').touched && form.get('location').hasError('required')">
+        <label class="font-semibold">Location</label>
+        <input type="text" id="location" class="text-grey-darkest border border-grey-light my-1" formControlName="location">
+        <span class="error">Location is required</span>
+      </div>
+      <div class="flex">
+        <div class="mb-1 w-1/2 pr-1" [class.error]="form.get('type').touched && form.get('type').hasError('required')">
+          <label class="font-semibold">Type</label>
+          <!-- <input type="text" id="type" class="text-grey-darkest border border-grey-light my-1" formControlName="type"> -->
+          <select id="type" class="text-grey-darkest border border-grey-light my-1" formControlName="type">
+            <option value="">Select a type</option>
+            <option [selected]="whiskey.type === 'Bourbon'" value="Bourbon">Bourbon</option>
+            <option [selected]="whiskey.type === 'Scotch'" value="Scotch">Scotch</option>
+            <option [selected]="whiskey.type === 'Rye'" value="Rye">Rye</option>
+            <option [selected]="whiskey.type === 'Other'" value="Other">Other</option>
+          </select>
+          <span class="error">Type is required</span>
+        </div>
+        <div class="mb-1 w-1/2 pl-1" [class.error]="form.get('years').touched && form.get('years').hasError('required')">
+          <label class="font-semibold">Years Aged</label>
+          <input type="number" id="years" class="text-grey-darkest border border-grey-light my-1" formControlName="years">
+          <span class="error">Years Aged is required</span>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="mb-1 w-1/2 pr-1" [class.error]="form.get('proof').touched && form.get('proof').hasError('required')">
+          <label class="font-semibold">Proof</label>
+          <input type="number" id="proof" class="text-grey-darkest border border-grey-light my-1" formControlName="proof">
+          <span class="error">Proof is required</span>
+        </div>
+        <div class="mb-1 w-1/2 pl-1" [class.error]="form.get('alc_vol').touched && form.get('alc_vol').hasError('required')">
+          <label class="font-semibold">Alcohol By Volume</label>
+          <input type="text" id="alc_vol" class="text-grey-darkest border border-grey-light my-1" formControlName="alc_vol">
+          <span class="error">Alcohol By Volume is required</span>
+        </div>
+      </div>
+      <div class="mb-2" [class.error]="form.get('notes').touched && form.get('notes').hasError('required')">
+        <label class="font-semibold">Notes</label>
+        <textarea id="notes" class="leading-normal text-grey-darkest border border-grey-light my-1" formControlName="notes"></textarea>
+        <span class="error">Notes is required</span>
+      </div>
+
+      <file-upload (photoUpload)="onPhotoUpload($event)"></file-upload>
+
+      <!-- <div class="message" style="height: 35px;">
+        <span *ngIf="form.dirty && !form.valid && mouseHover">
+          Please fill in all required fields appropriately
+        </span>
+      </div> -->
+      <span>
+        <div class="btn-menu">
+          <div *ngIf="!exists">
+            <button class="text-xs text-grey-darkest bg-orange p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid"
+              (mouseenter)="mouseHover=true" (mouseleave)="mouseHover=false" type="button" (click)="createWhiskey(form)">
+              Add Whiskey
+            </button>
+          </div>
+
+          <div *ngIf="exists">
+            <button class="text-xs text-grey-darkest bg-orange-light p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid"
+              (mouseenter)="mouseHover=true" (mouseleave)="mouseHover=false" type="button" (click)="updateWhiskey(form)">
+              Save Changes
+            </button>
+          </div>
+          <div *ngIf="exists">
+            <button class="text-xs text-grey-darkest bg-orange-light p-3 border-t border-b border-grey-darker font-semibold br-0" type="button"
+              (click)="removeWhiskey(form)">
+              Delete Whiskey
+            </button>
+          </div>
+          <div>
+            <button class="text-xs text-grey-darkest bg-orange-light p-3 border border-grey-darker font-semibold br-0" (click)="cancelWhiskey(form)">Cancel</button>
+          </div>
+
+        </div>
+      </span>
+
+    </form>
+  </div>
+</div>

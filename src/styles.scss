@@ -1,0 +1,26 @@
+@import '~font-awesome/css/font-awesome.min.css';
+*:focus {
+  outline: 0;
+}
+
+a {
+  cursor: pointer;
+}
+
+label {
+  margin: 0;
+  font-size: 0.8em;
+}
+
+.textshadow {
+  text-shadow: 1px 1px #a8a8a8;
+}
+
+.justify-stretch {
+  justify-content: stretch
+}
+
+.tracking-medium,
+.text-xs {
+  letter-spacing: 0.035em;
+}

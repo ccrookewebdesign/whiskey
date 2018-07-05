@@ -1,9 +1,33 @@
-<div class="my-3 mx-3" *ngIf="whiskeys; let whiskeys; else loading" [@routerTransition]="runAnimation">
+<div class="mt-6" *ngIf="reviews; let reviews; else loading" [@routerTransition]="runAnimation">
 
-  <h2 [ngClass]="animateOnRouteEnter" class="mb-4 font-medium">Whiskeys</h2>
+  <h3 [ngClass]="animateOnRouteEnter" class="mb-4 font-medium">Reviews</h3>
+  <!-- {{reviews | json}} -->
 
-  <div [ngClass]="animateOnRouteEnter" class="mb-4 text-xs flex justify-between">
-    <a *ngIf="user.uid" class="no-underline text-orange hover:text-orange-dark" [routerLink]="['edit', 'new']">add new</a>
+  <div *ngIf="reviews.length === 0">
+    No review for this criteria. dude...
+  </div>
+
+  <div *ngIf="reviews.length" [ngClass]="animateOnRouteEnter" class="mb-4 text-xs flex justify-between">
+    <div class="text-right ml-auto">
+      <span class="text-grey-dark mr-2">sort by:</span>
+      <a class="no-underline mr-1 text-orange hover:text-orange-dark" (click)="sortBy('rating')">rating</a> |
+      <a class="tracking-medium no-underline ml-1 text-orange hover:text-orange-dark" (click)="sortBy('date')">date</a>
+    </div>
+  </div>
+
+  <div *ngIf="reviews.length">
+    <div [ngClass]="animateOnRouteEnter" class="mb-4 p-4 bg-grey-lightest text-sm flex flex-col" *ngFor="let review of reviews">
+      <div class="-ml-1">
+        <star-rating readOnly="true" showHalfStars="true" NumOfStars="5" size="medium" [starType]="'svg'" [rating]="review.rating"></star-rating>
+      </div>
+      <div class="mb-2">{{ review.notes }}</div>
+      <div class="mb-1 text-xs font-semibold">{{ review.uname }}</div>
+      <div class="italic text-xs">{{ review.location }}, {{ review.review_dt }}</div>
+    </div>
+  </div>
+
+  <!-- <div [ngClass]="animateOnRouteEnter" class="mb-4 text-xs flex justify-between">
+    <a *ngIf="uid" class="no-underline text-orange hover:text-orange-dark" [routerLink]="['edit', 'new']">add new</a>
     <div class="text-right ml-auto">
       <span class="text-grey-dark mr-2">sort by:</span>
       <a class="no-underline mr-1 text-orange hover:text-orange-dark" (click)="sortBy('whiskey')">whiskey name</a> |
@@ -24,7 +48,7 @@
           <a [routerLink]="['/whiskeys', whiskey.id]">
             <img class="whiskeyicon" src="{{ whiskey.photo }}">
           </a>
-          <a *ngIf="user.uid" class="mt-1 text-xs text-orange hover:text-orange-dark no-underline" [routerLink]="['edit', whiskey.id]">edit</a>
+          <a *ngIf="uid" class="mt-1 text-xs text-orange hover:text-orange-dark no-underline" [routerLink]="['edit', whiskey.id]">edit</a>
         </div>
         <div class="w-4/5 flex flex-col text-xxs leading-loose">
           <a class="leading-tight tracking-normal no-underline text-xs text-orange hover:text-orange-dark" [routerLink]="['/whiskeys', whiskey.id]">{{whiskey.long_name}}</a>
@@ -56,37 +80,28 @@
       </div>
 
       <div class="text-xxs flex justify-between mt-3 mb-1">
-        <div class="flex align-center font-semibold">
-          <span>avg rating</span>
-          <star-rating readOnly="true" showHalfStars="true" NumOfStars="5" size="medium" [starType]="'svg'" [rating]="whiskey.avg_rating | number:'1.0-1'"></star-rating>
-
-        </div>
+        <div class="font-semibold">avg rating * * * *</div>
         <div class="flex">
           <a class="text-orange hover:text-orange-dark mx-2 no-underline" [routerLink]="['/whiskeys', whiskey.id]">see reviews</a> |
           <a (click)="toggleShowDiv(whiskey.id)" class="text-orange hover:text-orange-dark ml-2 no-underline">add review</a>
         </div>
       </div>
 
-      <!--
-      <div *ngIf="formMessage && reviewedId === whiskey.id" class="text-sm font-semibold mb-3">{{ formMessage }}</div>
-      -->
-
       <div [@slideInOut]="animationState" [className]="whiskey.id">
         <div *ngIf="showReviewForm === whiskey.id" class="border border-grey-lighter bg-grey-lightest mt-6 p-2">
-          <div *ngIf="!user.uid" class="flex flex-col justify-between items-center">
-            <span class="text-xs">You must login to add a review</span>
-            <button class="w-2/5 my-3 smallform text-grey-darkest bg-orange-light hover:bg-orange p-1 border border-grey-darker br-0"
-              type="button" (click)="onLogin()">Login</button>
+          <div *ngIf="!uid" class="flex flex-col">
+            <span>You must login to add a review</span>
+            <button (click)="onLogin()">Login</button>
           </div>
-          <div *ngIf="user.uid" class="flex flex-col">
-            <review *ngIf="!formMessage" [whiskey]="whiskey" [user]="user" (cancel)="onCancel()" (create)="onCreate($event)"></review>
-            <span *ngIf="formMessage.length" class="text-sm font-semibold">{{ formMessage }}</span>
+          <div *ngIf="uid" class="flex flex-col">
+            <review *ngIf="!formMessage" [whiskey]="whiskey" [uid]="uid" (cancel)="onCancel()" (create)="onCreate($event)"></review>
+            <span *ngIf="formMessage">{{ formMessage }}</span>
           </div>
         </div>
       </div>
 
     </div>
-  </div>
+  </div> -->
 </div>
 
 <ng-template #loading>Loading&hellip;</ng-template>

@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import * as fromRoot from '../../../store';
 import * as fromStore from '../../store';
 
+import * as fromServices from '../../services';
+
 import * as userActions from '../../../store/actions/user.action';
 
 import { Whiskey } from '../../models/whiskey.model';
@@ -14,22 +16,23 @@ import { Whiskey } from '../../models/whiskey.model';
   selector: 'whiskeys',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <whiskey-list [whiskeys]="whiskeys$ | async" [uid]="uid | async" (login)="onLogin()"></whiskey-list>
+  <whiskey-list [whiskeys]="whiskeys$ | async" [user]="user | async" (login)="onLogin()"></whiskey-list>
   `
 })
 export class WhiskeysComponent implements OnInit {
-  showArchived$: Observable<boolean>;
   whiskeys$: Observable<Whiskey[]>;
-  uid: Observable<string>;
+  user: Observable<any>;
 
   constructor(
     private root: Store<fromRoot.AppState>,
-    private store: Store<fromStore.WhiskeyModuleState>
+    private store: Store<fromStore.WhiskeyModuleState>,
+    private whiskeyService: fromServices.WhiskeysService
   ) {}
 
   ngOnInit() {
-    this.whiskeys$ = this.store.select(fromStore.getAllWhiskeys);
-    this.uid = this.store.select(fromRoot.getUserUid);
+    //this.whiskeys$ = this.store.select(fromStore.getAllWhiskeys);
+    this.whiskeys$ = this.whiskeyService.getWhiskeyCollection();
+    this.user = this.store.select(fromRoot.getUser);
   }
 
   sortBy() {
@@ -38,6 +41,6 @@ export class WhiskeysComponent implements OnInit {
 
   onLogin() {
     this.root.dispatch(new userActions.GoogleLogin());
-    this.uid = this.root.select(fromRoot.getUserUid);
+    this.user = this.root.select(fromRoot.getUser);
   }
 }

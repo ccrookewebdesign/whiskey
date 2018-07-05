@@ -1,3 +1,66 @@
-<div>
-  Review form here!
+<div class="p-2 text-xs border border-grey-lighter bg-white">
+  <h4 class="font-normal mb-2">Review {{ whiskey.short_name }}</h4>
+
+  <div class="text-sm text-grey-darker">
+    <form [formGroup]="form">
+      <div class="mb-1" [class.error]="form.get('review_dt').touched && form.get('review_dt').hasError('required')">
+        <label class="font-semibold">Date</label>
+        <input type="text" id="review_dt" class="smallform text-grey-darkest border border-grey-light my-1" formControlName="review_dt">
+        <span class="error">Review Date is required</span>
+      </div>
+      <div class="mb-1" [class.error]="form.get('location').touched && form.get('location').hasError('required')">
+        <label class="font-semibold">Location</label>
+        <input type="text" id="location" class="smallform text-grey-darkest border border-grey-light my-1" formControlName="location">
+        <span class="error">Location is required</span>
+      </div>
+      <div class="mb-1" [class.error]="form.get('rating').touched && form.get('rating').hasError('required')">
+        <label class="font-semibold">Rating</label>
+        <div class="mt-1 mb-3 -ml-2">
+          <span class="cursor-pointer">
+            <star-rating-control formControlName="rating"></star-rating-control>
+          </span>
+        </div>
+        <!--<input type="number" id="rating" class="smallform text-grey-darkest border border-grey-light my-1" formControlName="rating">-->
+        <span class="error">Rating is required</span>
+      </div>
+
+      <div class="flex">
+        <div class="w-1/2 pr-1" [class.error]="form.get('purchased_as').touched && form.get('purchased_as').hasError('required')">
+          <label class="font-semibold">Bottle/Glass</label>
+          <select id="type" class="smallform text-grey-darkest border border-grey-light my-1" formControlName="purchased_as">
+            <option value="Bottle">Bottle</option>
+            <option value="Glass">Glass</option>
+          </select>
+          <!-- <span class="error">Type is required</span> -->
+        </div>
+        <div class="mb-1 w-1/2 pl-1" [class.error]="form.get('price').touched && form.get('price').hasError('required')">
+          <label class="font-semibold">Price</label>
+          <input type="number" id="price" class="smallform text-grey-darkest border border-grey-light my-1" formControlName="price">
+          <span class="error">Price is required</span>
+        </div>
+      </div>
+
+      <div class="mb-2" [class.error]="form.get('notes').touched && form.get('notes').hasError('required')">
+        <label class="font-semibold">Notes</label>
+        <textarea id="notes" class="smallform leading-normal text-grey-darkest border border-grey-light my-1" formControlName="notes"></textarea>
+        <span class="error">Notes is required</span>
+      </div>
+
+      <div class="btn-menu flex">
+        <div *ngIf="!exists">
+          <button class="smallform text-grey-darkest bg-orange-light  hover:bg-orange p-1 border border-grey-darker br-0" [disabled]="form.invalid || !form.dirty"
+            type="button" (click)="createReview(form)">
+            Save
+          </button>
+        </div>
+
+        <div>
+          <button class="smallform text-grey-darkest bg-orange-light hover:bg-orange p-1 border border-l-0 border-grey-darker" (click)="cancelReview(form)">Cancel</button>
+        </div>
+
+      </div>
+
+
+    </form>
+  </div>
 </div>

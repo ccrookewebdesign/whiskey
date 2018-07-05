@@ -28,6 +28,7 @@ export class WhiskeyFormComponent implements OnInit, OnChanges {
   mouseHover: boolean = false;
 
   @Input() whiskey: Whiskey;
+  @Input() uid: string;
 
   @Output() create = new EventEmitter<Whiskey>();
   @Output() update = new EventEmitter<Whiskey>();
@@ -47,7 +48,7 @@ export class WhiskeyFormComponent implements OnInit, OnChanges {
     photo: ''
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     if (this.whiskey) {
@@ -67,9 +68,10 @@ export class WhiskeyFormComponent implements OnInit, OnChanges {
 
   onPhotoUpload(event: string) {
     this.photo_path = /* environment.photo_path +  */ event /*  + environment.photo_path_param */;
-    console.log('');
+
+    /* console.log('');
     console.log('event');
-    console.log(event);
+    console.log(event); */
     this.form.patchValue({ photo: this.photo_path });
   }
 

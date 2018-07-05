@@ -35,12 +35,22 @@ export class AppComponent {
     this.showMenu = !this.showMenu;
   }
 
-  changeOfRoutes() {
+  onActivate(event) {
     this.showMenu = false;
+     
+        window.scroll(0,0);
   }
 
   onDeactivate() {
-    this.renderer.setProperty(document.body, 'scrollTop', 0);
+    //this.renderer.setProperty(document.body, 'scrollTop', 0);
+    /* let scrollToTop = window.setInterval(() => {
+            let pos = window.pageYOffset;
+            if (pos > 0) {
+                window.scrollTo(0, pos - 20); // how far to scroll on each step
+            } else {
+                window.clearInterval(scrollToTop);
+            }
+        }, 1); */
   }
 
   googleLogin() {

@@ -22,6 +22,8 @@ import { reducers, effects, CustomSerializer } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
+//import { StarRatingModule } from 'angular-star-rating';
+
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
   : [];
@@ -43,7 +45,14 @@ import { HomeComponent } from './home/home.component';
     StoreModule.forFeature('appstate', reducers),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
-    environment.production ? [] : StoreDevtoolsModule.instrument()
+    //StarRatingModule.forRoot(),
+    environment.production
+      ? []
+      : StoreDevtoolsModule.instrument({
+          name: 'mmmWhiskey',
+          maxAge: 30 /* ,
+          logOnly: environment.production */
+        })
   ],
   declarations: [AppComponent, HomeComponent],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],

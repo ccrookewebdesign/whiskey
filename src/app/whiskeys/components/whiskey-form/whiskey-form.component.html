@@ -36,11 +36,11 @@
           <label class="font-semibold">Type</label>
           <!-- <input type="text" id="type" class="text-grey-darkest border border-grey-light my-1" formControlName="type"> -->
           <select id="type" class="text-grey-darkest border border-grey-light my-1" formControlName="type">
-            <option value="">Select a type</option>
-            <option [selected]="whiskey.type === 'Bourbon'" value="Bourbon">Bourbon</option>
-            <option [selected]="whiskey.type === 'Scotch'" value="Scotch">Scotch</option>
-            <option [selected]="whiskey.type === 'Rye'" value="Rye">Rye</option>
-            <option [selected]="whiskey.type === 'Other'" value="Other">Other</option>
+            <option value="" class="hover:bg-orange-lighter">Select a type</option>
+            <option [selected]="whiskey?.type === 'Bourbon'" value="Bourbon" class="hover:bg-orange-lighter">Bourbon</option>
+            <option [selected]="whiskey?.type === 'Scotch'" value="Scotch" class="hover:bg-orange-lighter">Scotch</option>
+            <option [selected]="whiskey?.type === 'Rye'" value="Rye" class="hover:bg-orange-lighter">Rye</option>
+            <option [selected]="whiskey?.type === 'Other'" value="Other" class="hover:bg-orange-lighter">Other</option>
           </select>
           <span class="error">Type is required</span>
         </div>
@@ -70,38 +70,33 @@
 
       <file-upload (photoUpload)="onPhotoUpload($event)"></file-upload>
 
-      <!-- <div class="message" style="height: 35px;">
-        <span *ngIf="form.dirty && !form.valid && mouseHover">
-          Please fill in all required fields appropriately
-        </span>
-      </div> -->
-      <span>
-        <div class="btn-menu">
-          <div *ngIf="!exists">
-            <button class="text-xs text-grey-darkest bg-orange p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid"
-              (mouseenter)="mouseHover=true" (mouseleave)="mouseHover=false" type="button" (click)="createWhiskey(form)">
-              Add Whiskey
-            </button>
-          </div>
 
-          <div *ngIf="exists">
-            <button class="text-xs text-grey-darkest bg-orange-light p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid"
-              (mouseenter)="mouseHover=true" (mouseleave)="mouseHover=false" type="button" (click)="updateWhiskey(form)">
-              Save Changes
-            </button>
-          </div>
-          <div *ngIf="exists">
-            <button class="text-xs text-grey-darkest bg-orange-light p-3 border-t border-b border-grey-darker font-semibold br-0" type="button"
-              (click)="removeWhiskey(form)">
-              Delete Whiskey
-            </button>
-          </div>
-          <div>
-            <button class="text-xs text-grey-darkest bg-orange-light p-3 border border-grey-darker font-semibold br-0" (click)="cancelWhiskey(form)">Cancel</button>
-          </div>
-
+      <div class="btn-menu">
+        <div *ngIf="!exists">
+          <button class="text-xs text-grey-darkest bg-orange-light  hover:bg-orange p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid || !form.dirty"
+            type="button" (click)="createWhiskey(form)">
+            Add Whiskey
+          </button>
         </div>
-      </span>
+
+        <div *ngIf="exists">
+          <button class="text-xs text-grey-darkest bg-orange-light hover:bg-orange p-3 border border-grey-darker font-semibold br-0" [disabled]="form.invalid || !form.dirty"
+            type="button" (click)="updateWhiskey(form)">
+            Save Changes
+          </button>
+        </div>
+        <div *ngIf="exists && uid === 'sL9AJ8AJyfObIBb0xdCInFBMqmu1'">
+          <button class="text-xs text-grey-darkest bg-orange-light hover:bg-orange p-3 border-t border-b border-r border-grey-darker font-semibold br-0" type="button"
+            (click)="removeWhiskey(form)">
+            Delete Whiskey
+          </button>
+        </div>
+        <div>
+          <button class="text-xs text-grey-darkest bg-orange-light hover:bg-orange p-3 border border-l-0 border-grey-darker font-semibold br-0" (click)="cancelWhiskey(form)">Cancel</button>
+        </div>
+
+      </div>
+
 
     </form>
   </div>

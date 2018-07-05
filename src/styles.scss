@@ -1,3 +1,8 @@
+$color-negative-rating: #DE751F !default;
+$color-ok-rating: #DE751F !default;
+$color-positive-rating: #DE751F !default;
+$color-default-rating: #DE751F !default;
+@import "../node_modules/css-star-rating/dist/scss/star-rating.scss";
 @import '~font-awesome/css/font-awesome.min.css';
 *:focus {
   outline: 0;
@@ -10,6 +15,66 @@ a {
 label {
   margin: 0;
   font-size: 0.8em;
+}
+
+input,
+textarea,
+select {
+  background: -webkit-linear-gradient(white, white);
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0px;
+}
+
+textarea {
+  margin-bottom: -6px !important;
+  height: 105px;
+}
+
+.smallform {
+  padding: .25rem;
+  font-size: .7rem;
+}
+
+textarea.smallform {
+  height: 60px;
+}
+
+.btn-menu {
+  display: flex;
+}
+
+.btn-menu>div {
+  flex: 1;
+  display: flex;
+  margin: 20px 0 0;
+}
+
+button {
+  flex: 1;
+}
+
+div.error>label {
+  color: #990000;
+}
+
+div.error>input,
+div.error>textarea,
+div.error>select {
+  border: 1px solid #990000;
+  color: #990000;
+}
+
+span.error {
+  color: #990000;
+  font-size: 0.8em;
+  font-style: italic;
+  padding: 1px;
+  display: none;
+}
+
+div.error>span.error {
+  display: block;
 }
 
 .textshadow {

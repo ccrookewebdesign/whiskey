@@ -12,4 +12,5 @@ export interface Whiskey {
   notes: string;
   photo: string;
   id?: string;
+  avg_rating?: number;
 }

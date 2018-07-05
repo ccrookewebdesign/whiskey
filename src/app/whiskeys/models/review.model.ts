@@ -1,10 +1,13 @@
 export interface Review {
   id: string;
   uid: string;
-  create_dt: string;
+  uname: string;
+  whiskeyid: string;
+  create_dt: any;
+  review_dt: string;
   rating: number;
   notes: string;
   location: string;
-  bottle: boolean;
+  purchased_as: string;
   price: number;
 }

@@ -20,11 +20,11 @@
           Whiskeys
         </a>
       </div>
-      <div class="text-sm bg-orange-dark hover:bg-orange border-orange-darker lg:flex-grow py-3 px-3 border-t">
-        <a [routerLink]="['whiskeys']" class="block no-underline w-full text-black lg:inline-block lg:mt-0 lg:mr-4">
+      <!-- <div class="text-sm bg-orange-dark hover:bg-orange border-orange-darker lg:flex-grow py-3 px-3 border-t">
+        <a [routerLink]="['whiskeys/reviews']" class="block no-underline w-full text-black lg:inline-block lg:mt-0 lg:mr-4">
           Reviews
         </a>
-      </div>
+      </div> -->
       <span *ngIf="user$ | async as user">
         <div *ngIf="!user.uid" class="text-sm bg-orange-dark hover:bg-orange border-orange-darker lg:flex-grow py-3 px-3 border-t">
           <a (click)="googleLogin()" class="block no-underline w-full text-black lg:inline-block lg:mt-0 lg:mr-4">
@@ -43,5 +43,6 @@
   <!-- <div class="container" class="routercontainer" [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
     <router-outlet #o="outlet"></router-outlet>
   </div -->
-  <router-outlet class="container" class="routercontainer" #o="outlet" (deactivate)="onDeactivate()" (activate)="changeOfRoutes()"></router-outlet>
+  <!-- <star-rating [starType]="'svg'" [rating]="2.63"></star-rating> -->
+  <router-outlet class="container routercontainer" #o="outlet" (deactivate)="onDeactivate()" (activate)="onActivate($event)"></router-outlet>
 </div>

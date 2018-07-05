@@ -8,8 +8,6 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../../environments/environment';
-
 import * as fromRoot from '../../../store';
 import * as fromStore from '../../store';
 
@@ -23,6 +21,7 @@ import { Whiskey } from '../../models/whiskey.model';
   template: `
   <whiskey-form
     [whiskey]="whiskey$ | async"
+    [uid]="uid | async"
     (create)="onCreate($event)"
     (update)="onUpdate($event)"
     (remove)="onRemove($event)"
@@ -32,12 +31,13 @@ import { Whiskey } from '../../models/whiskey.model';
 })
 export class WhiskeyDetailComponent implements OnInit, OnDestroy {
   whiskey$: Observable<Whiskey>;
-  //photo_path: string;
+  uid: Observable<string>;
 
   constructor(private store: Store<fromStore.WhiskeyModuleState>) {}
 
   ngOnInit() {
     this.whiskey$ = this.store.select(fromStore.getSelectedWhiskey);
+    this.uid = this.store.select(fromRoot.getUserUid);
   }
 
   /* onPhotoUpload(event: string) {
@@ -49,7 +49,7 @@ export class WhiskeyDetailComponent implements OnInit, OnDestroy {
     event.createDate = firebase.firestore.FieldValue.serverTimestamp();
     this.store
       .select(fromRoot.getUserUid)
-      .subscribe(uid => (event.created_by = uid)).unsubscribe;
+      .subscribe(uid => (event.created_by = uid));
     this.store.dispatch(new fromStore.CreateWhiskey(event));
   }
 

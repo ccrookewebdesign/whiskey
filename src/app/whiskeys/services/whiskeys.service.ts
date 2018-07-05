@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { tap, map, switchMap, catchError } from 'rxjs/operators';
-import { Observable, of, from } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
 //import 'rxjs/add/observable/throw';
 
 //import * as fromRoot from '../../store';
@@ -14,6 +14,7 @@ import {
 } from 'angularfire2/firestore';
 
 import { Whiskey } from '../models/whiskey.model';
+import { Review } from '../models/review.model';
 
 @Injectable()
 export class WhiskeysService {
@@ -61,29 +62,29 @@ export class WhiskeysService {
     return of<Whiskey>(payload);
   }
 
-  /* getWhiskeyCollection(): Observable<Whiskey[]> {
+  getWhiskeyCollection(): Observable<Whiskey[]> {
     let whiskeysCollection$: Observable<Whiskey[]>;
-    return (whiskeysCollection$ = Observable.combineLatest(
+    return (whiskeysCollection$ = combineLatest(
       this.store.select(fromStore.getAllWhiskeys),
-      this.store.select(fromStore.getShowArchived),
-      this.store.select(fromStore.getAllInvoices),
-      (whiskeys: any[], showArchived: any, invoices: any[]) => {
-        if (!showArchived) {
-          return whiskeys
-            .map(whiskey => {
-              let whiskeyInvoices: Invoice[] = invoices.filter(
-                invoice => invoice.whiskeyId === whiskey.id
-              );
+      this.store.select(fromStore.getAllReviews),
+      (whiskeys: any[], reviews: any[]) => {
+        return whiskeys.map(whiskey => {
+          let whiskeyReviews: Review[] = reviews.filter(
+            review => review.whiskeyid === whiskey.id
+          );
 
-              return { ...whiskey, invoices: whiskeyInvoices };
-            })
-            .filter(
-              whiskey => whiskey.active === !showArchived //? true || false : !showArchived
-            );
-        } else {
+          var sum = 0;
+          for (var i = 0; i < whiskeyReviews.length; i++) {
+            //console.log(whiskeyReviews[i].rating);
+            (sum += whiskeyReviews[i].rating), 10; //don't forget to add the base
+            //console.log(sum);
+          }
 
-        }
+          var avg = sum / whiskeyReviews.length;
+
+          return { ...whiskey, avg_rating: avg, reviews: whiskeyReviews };
+        });
       }
     ));
-  } */
+  }
 }
